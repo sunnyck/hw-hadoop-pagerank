@@ -2,23 +2,23 @@ hw-hadoop-pagerank
 ===========================
 ##Compile##
 
-~~console
+~~~console
 $ cd pagerank
 $ export JAVA_HOME=/usr/lib/jvm/java-7-oracle/
 $ ./gogo.sh -c
-~~  
+~~~  
 
 ##Execute##
 Build the graph of titles and links
 
-~~console
+~~~console
 $ ./gogo.sh -i <INPUT_PATH> -o <OUTPUT_PATH> -g
-~~
+~~~
 Count the PageRank
 
-~~console
-./gogo.sh -i -i <INPUT_PATH> -o <OUTPUT_PATH> [-n <iterative_times> -p
-~~
+~~~console
+$ ./gogo.sh -i -i <INPUT_PATH> -o <OUTPUT_PATH> [-n <iterative_times> -p
+~~~
 
 ## Detail ##
 ### Step 1:Build a graph(2 MapReduce)###
