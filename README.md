@@ -64,6 +64,3 @@ Give the score of this node to other node which it points to.
 The dangling nodes give their scores to root node `[]` so during the second mapreduce root node give the scores from dangling nodes to all nodes.
 
 
-
-
-
