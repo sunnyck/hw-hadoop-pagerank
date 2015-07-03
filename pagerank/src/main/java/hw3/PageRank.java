@@ -122,19 +122,32 @@ public class PageRank  extends Configured implements Tool {
         }
 
 
-/*	public static class GraphCombine extends Reducer<Text, Text, Text, Text>{
+	public static class GraphCombine extends Reducer<Text, Text, Text, Text>{
 		public void reduce(Text title, Iterable<Text> links, Context context) throws IOException, InterruptedException {
-				Iterator<Text> links_it = links.iterator();
+				/*Iterator<Text> links_it = links.iterator();
 				String values = links_it.next().toString();
-                                while(links_it.hasNext() && title.equals("[]")){					
+                                while(links_it.hasNext() && title.toString().equals("[]")){					
 					Text link = links_it.next();
 					if(!link.toString().equals(""))
                                         	values = values + "|" +link;
 				}			
 				context.write(title, new Text(values));
+				*/
+				String values = "";
+				for(Text link:links){
+					if(title.toString().equals("[]")){
+						//if(!link.toString().equals(""))
+                                                values = values + "|" +link;
+					}
+					else
+						context.write(title, link);
+				}
+				if(title.toString().equals("[]"))
+					context.write(title, new Text(values));
+				
 			}
 	}
-*/
+
 
 	public static class GraphReduce extends Reducer<Text, Text, Text, Text>{
 		public void reduce (Text title, Iterable<Text> links, Context context)
@@ -331,7 +344,7 @@ public class PageRank  extends Configured implements Tool {
 		job.setMapOutputValueClass(Text.class);
 		
 		job.setPartitionerClass(GraphPartitioner.class);
-//		job.setCombinerClass(GraphCombine.class);
+	//	job.setCombinerClass(GraphCombine.class);
 		// reducer
 		job.setReducerClass(GraphReduce.class);
 		//job.setReducerClass(Reducer.class);
@@ -485,13 +498,13 @@ public class PageRank  extends Configured implements Tool {
 			int Times =0;
 			if(cmd.hasOption("graph")){
 				//mapreduce twice, first for no-title-link and dangling node , second for group values of the same key  
-				fs.delete(output_nocheck_Path);
+//				fs.delete(output_nocheck_Path);
 				fs.delete(output_graph_Path);
-				if(BuildJob(inputPath, output_nocheck_Path).waitForCompletion(true)){
+//				if(BuildJob(inputPath, output_nocheck_Path).waitForCompletion(true)){
 					return (GraphJob(output_nocheck_Path, output_graph_Path).waitForCompletion(true) ? 1: 0);
-				}
-				else
-					return 0;
+//				}
+//				else
+//					return 0;
 					
 			}
 			if(cmd.hasOption("pagerank")){
